@@ -56,7 +56,7 @@ class TravelSafe::CLI
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
-        puts "#{result.name}'s travel advisory level is level 1." #country.advisory_level, country[:advisory_level]
+        puts "#{result.name}'s travel advisory level is #{result.advisory_level}" #{}", country[:advisory_level]
       else
         puts "                                                                  "
         puts "------------------------------------------------------------------"
@@ -80,7 +80,7 @@ class TravelSafe::CLI
         puts "------------------------------------------------------------------"
         puts "                                                                  "
         puts "#{result.name} is a great country." #country.advisory_level, country[:advisory_level]
-        #puts "#{country.advisory_info}"
+        puts "#{result.advisory_info}"
       else
         puts "                                                                  "
         puts "------------------------------------------------------------------"

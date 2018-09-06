@@ -22,9 +22,11 @@ attr_accessor :name, :country_url, :advisory_level, :advisory_info, :tourist_vis
   end
 
   def self.hard_coded
-    self.new("Mexico")
-    self.new("India")
-    self.new("Japan")
+    mexico = self.new("Mexico")
+    mexico.advisory_level = "level 2"
+    mexico.advisory_info = "Info here."
+    india  = self.new("India")
+    japan = self.new("Japan")
     @@all
   end
 
