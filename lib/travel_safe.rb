@@ -1,5 +1,2 @@
-require "travel_safe/version"
-
-module TravelSafe
-  # Your code goes here...
-end
+require_relative "./travel_safe/version"
+require_relative './travel_safe/cli'
