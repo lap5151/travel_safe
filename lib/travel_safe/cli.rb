@@ -10,10 +10,11 @@ class TravelSafe::CLI
     elsif input.upcase == "SEARCH"
       self.search_by_name
     elsif input.upcase == "MORE INFO"
-      puts "What country would you like more information about?"
-      input = gets.strip
-      self.more_info(input.upcase)
+      self.more_info
     elsif input.upcase != "EXIT"
+      puts "                                                                  "
+      puts "Sorry, I don't recognize that command."
+      puts "                                                                  "
       self.call
     else input.upcase == "EXIT"
       puts "Safe travels!"
@@ -33,9 +34,10 @@ class TravelSafe::CLI
     puts "                                                                  "
     puts "List of countries:"
     #countries = ["Mexico", "India"].sort
+    TravelSafe::Country.hard_coded #TravelSafe::Country.all
     countries = TravelSafe::Country.list_all
-    countries.each_with_index do |country, i|
-      puts "#{i+1}. #{country}"
+    countries.each.with_index(1) do |country, i|
+      puts "#{i}. #{country}"
     end
     puts "                                                                  "
     puts "------------------------------------------------------------------"
@@ -47,13 +49,14 @@ class TravelSafe::CLI
     puts "Please enter the country name you would like more information about:"
     input = gets.strip
     #countries = ["Mexico", "India"]
-    countries = TravelSafe::Country.all
-    result = countries.detect {|name| name.upcase == input.upcase}
+    #TravelSafe::Country.hard_coded
+    countries = TravelSafe::Country.hard_coded #TravelSafe::Country.all
+    result = countries.detect {|instance| instance.name == input}
       if result != nil
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
-        puts "#{result}'s travel advisory level is #{country.advisory_level}." #country.advisory_level, country[:advisory_level]
+        puts "#{result.name}'s travel advisory level is level 1." #country.advisory_level, country[:advisory_level]
       else
         puts "                                                                  "
         puts "------------------------------------------------------------------"
@@ -66,16 +69,18 @@ class TravelSafe::CLI
     self.call
   end
 
-  def more_info(input)
+  def more_info
+    puts "What country would you like more information about?"
+    input = gets.strip
     #countries = ["Mexico", "India"]
-    countries = TravelSafe::Country.all
-    result = countries.detect {|name| name.upcase == input.upcase}
+    countries = TravelSafe::Country.hard_coded #TravelSafe::Country.all
+    result = countries.detect {|instance| instance.name == input}
       if result != nil
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
-        puts "#{result} is a great country." #country.advisory_level, country[:advisory_level]
-        puts "#{country.advisory_info}"
+        puts "#{result.name} is a great country." #country.advisory_level, country[:advisory_level]
+        #puts "#{country.advisory_info}"
       else
         puts "                                                                  "
         puts "------------------------------------------------------------------"

@@ -12,11 +12,13 @@ class TravelSafe::Scraper
           TravelSafe::Country.new(country)
           country.css("").each do |country_url|
             country.country_url = country_url
+            binding.pry
+            self.scrape_country(country_url)
         end
       end
   end
 
-  def self.scrape_country(country)
+  def self.scrape_country(country_url)
     country_website = Nokogiri::HTML(open(country.country_url))
     country.advisory_level =
     country.advisory_info =

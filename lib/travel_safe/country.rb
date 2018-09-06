@@ -14,12 +14,18 @@ attr_accessor :name, :country_url, :advisory_level, :advisory_info, :tourist_vis
   end
 
   def self.list_all
-    list =
+    list = []
     @@all.each do |country|
       list << country.name
     end
     list.sort
   end
 
+  def self.hard_coded
+    self.new("Mexico")
+    self.new("India")
+    self.new("Japan")
+    @@all
+  end
 
 end
