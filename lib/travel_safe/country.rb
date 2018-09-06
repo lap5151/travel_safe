@@ -4,16 +4,22 @@ attr_accessor :name, :country_url, :advisory_level, :advisory_info, :tourist_vis
 
 @@all = []
 
-  def self.list
-    country_1 = self.new
-    country_1.name = "Mexico"
-    country_1.country_url = "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/mexico-travel-advisory.html"
-    country_2 = self.new
-    country_2.name = "India"
-    country_2.country_url = "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/india-travel-advisory.html"
-    array = [country_1, country_2]
+  def initialize(name)
+    @name = name
+    @@all << self
   end
 
+  def self.all
+    @@all
+  end
+
+  def self.list_all
+    list =
+    @@all.each do |country|
+      list << country.name
+    end
+    list.sort
+  end
 
 
 end

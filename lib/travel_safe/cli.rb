@@ -16,6 +16,7 @@ class TravelSafe::CLI
     elsif input.upcase != "EXIT"
       self.call
     else input.upcase == "EXIT"
+      puts "Safe travels!"
     end
   end
 
@@ -31,7 +32,8 @@ class TravelSafe::CLI
     puts "------------------------------------------------------------------"
     puts "                                                                  "
     puts "List of countries:"
-    countries = ["Mexico", "India"].sort
+    #countries = ["Mexico", "India"].sort
+    countries = TravelSafe::Country.list_all
     countries.each_with_index do |country, i|
       puts "#{i+1}. #{country}"
     end
@@ -44,13 +46,14 @@ class TravelSafe::CLI
   def search_by_name
     puts "Please enter the country name you would like more information about:"
     input = gets.strip
-    countries = ["Mexico", "India"]
+    #countries = ["Mexico", "India"]
+    countries = TravelSafe::Country.all
     result = countries.detect {|name| name.upcase == input.upcase}
       if result != nil
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
-        puts "#{result}'s travel advisory level is level 1." #country.advisory_level, country[:advisory_level]
+        puts "#{result}'s travel advisory level is #{country.advisory_level}." #country.advisory_level, country[:advisory_level]
       else
         puts "                                                                  "
         puts "------------------------------------------------------------------"
@@ -64,13 +67,15 @@ class TravelSafe::CLI
   end
 
   def more_info(input)
-    countries = ["Mexico", "India"]
+    #countries = ["Mexico", "India"]
+    countries = TravelSafe::Country.all
     result = countries.detect {|name| name.upcase == input.upcase}
       if result != nil
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
         puts "#{result} is a great country." #country.advisory_level, country[:advisory_level]
+        puts "#{country.advisory_info}"
       else
         puts "                                                                  "
         puts "------------------------------------------------------------------"
