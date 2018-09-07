@@ -4,8 +4,10 @@ attr_accessor :name, :country_url, :advisory_level, :advisory_info, :tourist_vis
 
 @@all = []
 
-  def initialize(name)
+  def initialize(name,advisory_level,country_url)
     @name = name
+    @advisory_level = advisory_level
+    @country_url = country_url
     @@all << self
   end
 
@@ -22,12 +24,10 @@ attr_accessor :name, :country_url, :advisory_level, :advisory_info, :tourist_vis
   end
 
   def self.hard_coded
-    mexico = self.new("Mexico")
-    mexico.advisory_level = "level 2"
+    mexico = self.new("Mexico","level 1","url")
     mexico.advisory_info = "Info here."
-    india  = self.new("India")
-    japan = self.new("Japan")
     @@all
   end
+
 
 end
