@@ -15,9 +15,11 @@ class TravelSafe::Scraper
             full_url = "https://travel.state.gov" + url_name
             country_name = row.css("a").attribute("title").value
             country = country_name.split(/.travel advisory$/)
-                binding.pry
+            advisory_level = row.css("td")[1].children.text
+            countries << {:country => country, :advisory_level => advisory_level, :country_url => full_url}
       end
     end
+    countries
   end
 
   def self.scrape_country(country_url)
