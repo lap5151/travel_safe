@@ -22,9 +22,26 @@ class TravelSafe::Scraper
     countries
   end
 
-  def self.scrape_country(country_url)
-    #country_website = Nokogiri::HTML(open(country.country_url))
-
+  def self.scrape_country(country_url = "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/burma-travel-advisory.html")
+  blocks = []
+  country_website = Nokogiri::HTML(open(country_url))
+  info_url = country_website.css("div.tsg-rwd-emergency-alert-text a").attribute("href").value
+  safety_info = country_website.css("div.tsg-rwd-emergency-alert-text ul")
+  info_website = Nokogiri::HTML(open(info_url))
+  info_block = info_website.css("div.tsg-rwd-qf-box-data")
+  passport_validity = info_block[0].text.strip
+  blank_passport_pages = info_block[1].text.strip
+  tourist_visa = info_block[2].text.strip
+  vaccinations = info_block[3].text.strip
+  currency_restrictions_entry = info_block[4].text.strip
+  currency_restrictions_exit = info_block[5].text.strip
+  safety_block = info_website.css("div.tsg-rwd-accordion-copy")
+  safety_and_security = safety_block[3].text.strip
+    #safety_block[3].css("p").children.each do |block|
+      #blocks << block.text
+  #  end
+    #blocks
+    binding.pry
   end
 
 end
