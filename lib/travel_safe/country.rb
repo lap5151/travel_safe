@@ -8,7 +8,6 @@ attr_accessor :name, :country_url, :advisory_level, :advisory_info, :tourist_vis
     @name = name
     @advisory_level = advisory_level
     @country_url = country_url
-    #TravelSafe::Scraper.new.scrape_country(country_url)
     @@all << self
   end
 
@@ -17,9 +16,14 @@ attr_accessor :name, :country_url, :advisory_level, :advisory_info, :tourist_vis
   end
 
   def self.list_all
-    @@all.sort.each.with_index(1) do |instance, i|
-      puts "#{i}. #{instance.name}"
+    countries = []
+    @@all.each  do |instance|
+      countries << instance.name
     end
+    countries.sort.each.with_index(1) do |country, i|
+        puts "#{i}. #{country}"
+      end
+      countries = []
   end
 
 end

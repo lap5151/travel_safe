@@ -4,19 +4,24 @@ class TravelSafe::Scraper
     countries = []
     scrape_results = []
     website = Nokogiri::HTML(open("https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories.html"))
-    website.css("div.table-data.data-date").each.with_index(1) do |info, i|
-        scrape_results << info.css("tr")[i]
-          scrape_results.each do |row|
-            url_name = row.css("a").attribute("href").value
-            full_url = "https://travel.state.gov" + url_name
-            country_name = row.css("a").attribute("title").value
-            country = country_name.split(/.Travel Advisory$/).join
-            advisory_level = row.css("td")[1].children.text
-            instance = TravelSafe::Country.new(country,advisory_level,full_url)
+    website.css("div.table-data.data-date").each do |info|
+      info.css("tr").each do |row|
+        scrape_results << row
+        end
       end
+      i=1
+      while i < scrape_results.count do
+            url_name = scrape_results[i].css("a").attribute("href").value
+            full_url = "https://travel.state.gov" + url_name
+            country_name = scrape_results[i].css("a").attribute("title").value
+            country = country_name.split(/.Travel Advisory$/).join
+            advisory_level = scrape_results[i].css("td")[1].children.text
+            instance = TravelSafe::Country.new(country,advisory_level,full_url)
+            i+=1
+            countries << instance
+      end
+      countries.count
     end
-    countries
-  end
 
   def scrape_country(country_url = "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/burma-travel-advisory.html")
   blocks = []
