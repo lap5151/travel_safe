@@ -5,6 +5,13 @@ class TravelSafe::CLI
     puts "Bon Voyage!"
     puts "Please select what you would like to do:"
     self.menu
+  end
+
+  def menu
+    puts "1. To see an alphabetical list of countries to choose from., type 'list'"
+    puts "2. To search by country name for advisory level, type 'search'"
+    puts "3. To find out more infomartion about specific country, type 'more info'"
+    puts "4. To quit, type 'exit'"
     input = gets.strip
     if input.upcase == "LIST"
       self.list
@@ -22,23 +29,17 @@ class TravelSafe::CLI
     end
   end
 
-  def menu
-    puts "1. To see an alphabetical list of countries to choose from., type 'list'"
-    puts "2. To search by country name for advisory level, type 'search'"
-    puts "3. To find out more infomartion about specific country, type 'more info'"
-    puts "4. To quit, type 'exit'"
-  end
-
   def list
     puts "                                                                  "
     puts "------------------------------------------------------------------"
     puts "                                                                  "
     puts "List of countries:"
     TravelSafe::Country.list_all
+    #binding.pry
     puts "                                                                  "
     puts "------------------------------------------------------------------"
     puts "                                                                  "
-      self.call
+      self.menu
   end
 
   def search_by_name
@@ -60,7 +61,7 @@ class TravelSafe::CLI
     puts "                                                                  "
     puts "------------------------------------------------------------------"
     puts "                                                                  "
-    self.call
+    self.menu
   end
 
   def more_info
@@ -84,7 +85,7 @@ class TravelSafe::CLI
     puts "                                                                  "
     puts "------------------------------------------------------------------"
     puts "                                                                  "
-    self.call
+    self.menu
   end
 
 
