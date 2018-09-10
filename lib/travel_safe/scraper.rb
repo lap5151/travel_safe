@@ -26,7 +26,11 @@ class TravelSafe::Scraper
   blocks = []
   country_website = Nokogiri::HTML(open(country_url))
   info_url = country_website.css("div.tsg-rwd-emergency-alert-text a").attribute("href").value
-  safety_info = country_website.css("div.tsg-rwd-emergency-alert-text ul")
+  safety_info = country_website.css("div.tsg-rwd-emergency-alert-text p")
+  avoid = country_website.css("div.tsg-rwd-emergency-alert-text li")
+  lists = avoid.css("li").text
+  blocks << safety_info.css("p")[0].text
+  safety_info.css("p")[1]
   info_website = Nokogiri::HTML(open(info_url))
   info_block = info_website.css("div.tsg-rwd-qf-box-data")
   passport_validity = info_block[0].text.strip
@@ -36,11 +40,11 @@ class TravelSafe::Scraper
   currency_restrictions_entry = info_block[4].text.strip
   currency_restrictions_exit = info_block[5].text.strip
   safety_block = info_website.css("div.tsg-rwd-accordion-copy")
-  safety_and_security = safety_block[3].text.strip
-    #safety_block[3].css("p").children.each do |block|
+  #safety_and_security = safety_block[3].text.strip
+    #safety_block[3].xpath("p").each do |block|
       #blocks << block.text
   #  end
-    #blocks
+  #  blocks
     binding.pry
   end
 
