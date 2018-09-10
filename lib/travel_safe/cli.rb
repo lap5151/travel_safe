@@ -52,6 +52,21 @@ class TravelSafe::CLI
         puts "------------------------------------------------------------------"
         puts "                                                                  "
         puts "#{result.name}'s travel advisory level is #{result.advisory_level}"
+      elsif result == nil
+        puts "                                                                  "
+        puts "------------------------------------------------------------------"
+        puts "                                                                  "
+        possible = countries.index{|country| country.name.include?(input)}
+        puts "Did you mean #{countries[possible].name}? YES or NO "
+        input = gets.strip
+        puts "                                                                  "
+        puts "------------------------------------------------------------------"
+        puts "                                                                  "
+          if input.upcase == "YES"
+            puts "#{countries[possible].name}'s travel advisory level is #{countries[possible].advisory_level}"
+          else
+            puts "Sorry! There were no search results. Please see the list of countries."
+          end
       else
         puts "                                                                  "
         puts "------------------------------------------------------------------"
