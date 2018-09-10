@@ -1,6 +1,7 @@
 class TravelSafe::CLI
 
   def call
+    TravelSafe::Scraper.new.scrape_page
     puts "Bon Voyage!"
     puts "Please select what you would like to do:"
     self.menu
@@ -33,12 +34,7 @@ class TravelSafe::CLI
     puts "------------------------------------------------------------------"
     puts "                                                                  "
     puts "List of countries:"
-    #countries = ["Mexico", "India"].sort
-    TravelSafe::Country.hard_coded #TravelSafe::Country.all
-    countries = TravelSafe::Country.list_all
-    countries.each.with_index(1) do |country, i|
-      puts "#{i}. #{country}"
-    end
+    TravelSafe::Country.list_all
     puts "                                                                  "
     puts "------------------------------------------------------------------"
     puts "                                                                  "
@@ -48,15 +44,13 @@ class TravelSafe::CLI
   def search_by_name
     puts "Please enter the country name you would like more information about:"
     input = gets.strip
-    #countries = ["Mexico", "India"]
-    #TravelSafe::Country.hard_coded
-    countries = TravelSafe::Country.hard_coded #TravelSafe::Country.all
+    countries = TravelSafe::Country.all
     result = countries.detect {|instance| instance.name == input}
       if result != nil
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
-        puts "#{result.name}'s travel advisory level is #{result.advisory_level}" #{}", country[:advisory_level]
+        puts "#{result.name}'s travel advisory level is #{result.advisory_level}"
       else
         puts "                                                                  "
         puts "------------------------------------------------------------------"
@@ -73,13 +67,13 @@ class TravelSafe::CLI
     puts "What country would you like more information about?"
     input = gets.strip
     #countries = ["Mexico", "India"]
-    countries = TravelSafe::Country.hard_coded #TravelSafe::Country.all
+    countries = TravelSafe::Country.all
     result = countries.detect {|instance| instance.name == input}
       if result != nil
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
-        puts "#{result.name} is a great country." #country.advisory_level, country[:advisory_level]
+        puts "#{result.name} is a great country."
         puts "#{result.advisory_info}"
       else
         puts "                                                                  "
