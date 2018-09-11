@@ -52,27 +52,32 @@ class TravelSafe::CLI
         puts "------------------------------------------------------------------"
         puts "                                                                  "
         puts "#{result.name}'s travel advisory level is #{result.advisory_level}"
-      elsif result == nil
+      else result == nil
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
         possible = countries.index{|country| country.name.include?(input)}
-        puts "Did you mean #{countries[possible].name}? YES or NO "
-        input = gets.strip
-        puts "                                                                  "
-        puts "------------------------------------------------------------------"
-        puts "                                                                  "
-          if input.upcase == "YES"
-            puts "#{countries[possible].name}'s travel advisory level is #{countries[possible].advisory_level}"
+          if possible != nil
+            puts "Did you mean #{countries[possible].name}? YES or NO "
+            input = gets.strip
+            puts "                                                                  "
+            puts "------------------------------------------------------------------"
+            puts "                                                                  "
+              if input.upcase == "YES"
+                puts "#{countries[possible].name}'s travel advisory level is #{countries[possible].advisory_level}"
+              else
+                puts "                                                                  "
+                puts "------------------------------------------------------------------"
+                puts "                                                                  "
+                puts "There were no search results for that country name. Please see our list of countries to choose from."
+              end
           else
-            puts "Sorry! There were no search results. Please see the list of countries."
+            puts "                                                                  "
+            puts "------------------------------------------------------------------"
+            puts "                                                                  "
+            puts "There were no search results for that country name. Please see our list of countries to choose from."
           end
-      else
-        puts "                                                                  "
-        puts "------------------------------------------------------------------"
-        puts "                                                                  "
-        puts "There were no search results for that country name. Please see our list of countries to choose from."
-    end
+        end
     puts "                                                                  "
     puts "------------------------------------------------------------------"
     puts "                                                                  "

@@ -13,7 +13,7 @@ class TravelSafe::Scraper
       while i < scrape_results.count do
             url_name = scrape_results[i].css("a").attribute("href").value
             full_url = "https://travel.state.gov" + url_name
-            country_name = scrape_results[i].css("a").attribute("title").value
+            country_name = scrape_results[i].css("a").attribute("title").value.strip
             country = country_name.split(/.Travel Advisory$/).join
             advisory_level = scrape_results[i].css("td")[1].children.text
             instance = TravelSafe::Country.new(country,advisory_level,full_url)
