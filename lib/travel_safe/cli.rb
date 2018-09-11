@@ -1,13 +1,14 @@
 class TravelSafe::CLI
 
   def call
+    puts "Loading data, this will take 1-2 minutes. Please be patient..."
     TravelSafe::Scraper.new.scrape_page
-    puts "Bon Voyage!"
-    puts "Please select what you would like to do:"
     self.menu
   end
 
   def menu
+    puts "Bon Voyage!"
+    puts "Please select what you would like to do:"
     puts "1. To see an alphabetical list of countries to choose from., type 'list'"
     puts "2. To search by country name for advisory level, type 'search'"
     puts "3. To find out more infomartion about specific country, type 'more info'"
@@ -23,7 +24,7 @@ class TravelSafe::CLI
       puts "                                                                  "
       puts "Sorry, I don't recognize that command."
       puts "                                                                  "
-      self.call
+      self.menu
     else input.upcase == "EXIT"
       puts "Safe travels!"
     end
@@ -94,8 +95,9 @@ class TravelSafe::CLI
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
-        puts "#{result.name} is a great country."
-        puts "#{result.advisory_info}"
+        #puts "#{result.name} is a great country."
+        #puts "#{result.advisory_info}"
+        TravelSafe::Country.more_info(result)
       else
         puts "                                                                  "
         puts "------------------------------------------------------------------"

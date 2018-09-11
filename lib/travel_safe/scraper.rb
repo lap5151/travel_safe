@@ -10,15 +10,29 @@ class TravelSafe::Scraper
         end
       end
       i=1
-      while i < 190 do#scrape_results.count do
+      while i < scrape_results.count do
             url_name = scrape_results[i].css("a").attribute("href").value
             country_url = "https://travel.state.gov" + url_name
             country_name = scrape_results[i].css("a").attribute("title").value.strip
             country = country_name.split(/.Travel Advisory$/).join
             advisory_level = scrape_results[i].css("td")[1].children.text
             country_website = Nokogiri::HTML(open(country_url))
-            info_url = country_website.css("div.tsg-rwd-emergency-alert-text a").attribute("href").value
-            if info_url.strip.split("https://travel.state.gov").count == 1
+            info_url = country_website.at_css('a:contains("country information page")')
+            info_url_2 = country_website.at_css('a:contains("country information")')
+            info_url_3 = country_website.at_css('a:contains("Country Information page")')
+            if info_url != nil
+              info_url = info_url["href"]
+            elsif info_url_2 != nil
+              info_url = info_url_2["href"]
+            elsif info_url_3 != nil
+              info_url = info_url_3["href"]
+            else
+              info_url = country_website.css("div.tsg-rwd-emergency-alert-text a").attribute("href").value
+              #info_url = "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/worldwide-caution.html"
+            end
+            if info_url.strip.split("https://www.faa.gov").count == 2
+              info_url = info_url.strip
+            elsif info_url.strip.split("https://travel.state.gov").count == 1
               info_url = "https://travel.state.gov" + info_url.strip
             else
               info_url = info_url.strip
@@ -30,15 +44,17 @@ class TravelSafe::Scraper
       countries.count
     end
 
-  def self.scrape_country(country_url = "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/japan-travel-advisory.html")
+  def self.scrape_country(country_url = "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/north-korea-travel-advisory.html")
   blocks = []
   country_website = Nokogiri::HTML(open(country_url))
-  info_url = country_website.css("div.tsg-rwd-emergency-alert-text a").attribute("href").value
+  #info_url = country_website.css("div.tsg-rwd-emergency-alert-text a").attribute("href").value
+  info_url = country_website.at_css('a:contains("country information page")')["href"]
   if info_url.strip.split("https://travel.state.gov").count == 1
     info_url = "https://travel.state.gov" + info_url.strip
   else
     info_url = info_url.strip
   end
+  #binding.pry
   info_website = Nokogiri::HTML(open(info_url))
 #  safety_info = country_website.css("div.tsg-rwd-emergency-alert-text p")
 #  avoid = country_website.css("div.tsg-rwd-emergency-alert-text li")

@@ -26,7 +26,7 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
   def self.list_all
     countries = []
     @@all.each  do |instance|
-      countries << instance.info_url
+      countries << instance.name
     end
     countries.sort.each.with_index(1) do |country, i|
         puts "#{i}. #{country}"
@@ -34,8 +34,15 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
       countries = []
   end
 
-  def self.more_info
-    puts "Passport validity: #{@passport_validity}"
+  def self.more_info(country)
+    #puts "Passport validity: #{@passport_validity}"
+    #puts "Blank Passport Pages: #{@blank_passport_pages}"
+    #puts "Tourist Visa Required: #{@tourist_visa"
+    #puts "Vaccinations: #{@vaccinations}"
+    #puts "Currency Restrictions for Entry: #{@currency_restrictions_entry}"
+    #puts "Currency Restrictions for Exit: #{@currency_restrictions_exit}"
+    puts "For more information please visit the webiste below: "
+    puts "#{country.country_url}"
   end
 
 end
