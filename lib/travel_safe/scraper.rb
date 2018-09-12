@@ -34,6 +34,10 @@ class TravelSafe::Scraper
               info_url = info_url.strip
             elsif info_url.strip.split("https://travel.state.gov").count == 1
               info_url = "https://travel.state.gov" + info_url.strip
+            elsif info_url == "https://travel.state.gov/content/passports/en/country/south-sudan.htmll"
+              info_url = "https://travel.state.gov/content/passports/en/country/south-sudan.html"
+            elsif info_url == "https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/MoldovaRepublicof.html"
+              info_url = "https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Moldova.html"
             else
               info_url = info_url.strip
             end
