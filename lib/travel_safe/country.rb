@@ -26,7 +26,7 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
   def self.list_all
     countries = []
     @@all.each  do |instance|
-      countries << instance.name
+      countries << instance.info_url
     end
     countries.sort.each.with_index(1) do |country, i|
         puts "#{i}. #{country}"
@@ -44,5 +44,24 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
     puts "For more information please visit the webiste below: "
     puts "#{country.country_url}"
   end
+
+  def self.test_links
+    countries = []
+    bad_links = []
+    @@all.each  do |instance|
+      countries << instance.info_url
+    end
+      countries.each do |url|
+        begin
+          doc = open(url)
+        rescue
+          puts "The request for a page at #{url} timed out...skipping."
+          bad_links << url
+          next
+        end
+      end
+      bad_links
+  end
+
 
 end
