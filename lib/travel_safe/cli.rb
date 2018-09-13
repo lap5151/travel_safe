@@ -45,7 +45,7 @@ class TravelSafe::CLI
   end
 
   def search_by_name
-    puts "Please enter the country name you would like more information about:".colorize(:white)
+    puts "Please enter the country name you would like more information about:".colorize(:yellow)
     answer = gets.strip
     instance = TravelSafe::Country.find_by_name(answer)
       if instance != nil
@@ -66,13 +66,10 @@ class TravelSafe::CLI
   end
 
   def more_info
-    puts "What country would you like more travel information about?".colorize(:white)
+    puts "What country would you like more travel information about?".colorize(:yellow)
     answer = gets.strip
     result = TravelSafe::Country.find_by_name(answer)
       if result != nil
-        #puts "                                                                  "
-        #puts "------------------------------------------------------------------"
-        #puts "                                                                  "
         TravelSafe::Scraper.scrape_country(result)
         TravelSafe::Country.more_info(result)
       else
@@ -91,7 +88,7 @@ class TravelSafe::CLI
     possible = TravelSafe::Country.search_by_name(answer)
     countries = TravelSafe::Country.all
     if possible != nil
-      puts "Did you mean #{countries[possible].name}? YES or NO ".colorize(:white)
+      puts "Did you mean #{countries[possible].name}? YES or NO ".colorize(:yellow)
       input = gets.strip
       puts "                                                                  "
       puts "------------------------------------------------------------------"
@@ -118,7 +115,7 @@ class TravelSafe::CLI
     possible = TravelSafe::Country.search_by_name(answer)
     countries = TravelSafe::Country.all
     if possible != nil
-      puts "Did you mean #{countries[possible].name}? YES or NO ".colorize(:white)
+      puts "Did you mean #{countries[possible].name}? YES or NO ".colorize(:yellow)
       input = gets.strip
       puts "                                                                  "
       puts "------------------------------------------------------------------"
