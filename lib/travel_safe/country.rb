@@ -38,14 +38,15 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
     possible = @@all.index{|instance| instance.name.upcase.include?(input.upcase)}
   end
 
-  def self.look_up(possible)
-      result = @@all[possible]
-  end
+#  def self.look_up(possible)
+  #    result = @@all[possible]
+#  end
 
   def self.more_info(country)
     puts "                                                                  "
     puts "------------------------------------------------------------------"
     puts "                                                                  "
+    puts "Travel Advisory:".colorize(:green) + " #{country.advisory_level}"
     puts "Passport validity:".colorize(:green) + " #{country.passport_validity}"
     puts "Blank Passport Pages:".colorize(:green) + " #{country.blank_passport_pages}"
     puts "Tourist Visa Required:".colorize(:green) + " #{country.tourist_visa}"
