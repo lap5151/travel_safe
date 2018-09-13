@@ -38,10 +38,6 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
     possible = @@all.index{|instance| instance.name.upcase.include?(input.upcase)}
   end
 
-#  def self.look_up(possible)
-  #    result = @@all[possible]
-#  end
-
   def self.more_info(country)
     puts "                                                                  "
     puts "------------------------------------------------------------------"
