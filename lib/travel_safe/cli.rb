@@ -1,7 +1,7 @@
 class TravelSafe::CLI
 
   def call
-    puts "Loading data, this will take less than a minute. Please be patient...".colorize(:red)
+    puts "Loading data, this will take about a minute. Please be patient...".colorize(:red)
     TravelSafe::Scraper.new.scrape_page
     puts "                                                                  "
     puts "Welcome!".colorize(:cyan)

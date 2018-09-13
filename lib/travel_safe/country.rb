@@ -4,11 +4,10 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
 
 @@all = []
 
-  def initialize(name,advisory_level,country_url,info_url)
+  def initialize(name,advisory_level,country_url)
     @name = name
     @advisory_level = advisory_level
     @country_url = country_url
-    @info_url = info_url
     @@all << self
   end
 
@@ -70,11 +69,29 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
         rescue
           puts "The request for a page at #{url} timed out...skipping."
           bad_links << url
+          url = nil
           next
         end
       end
-      bad_links
+      if bad_links.count > 0
+        puts "An error has occurred with the link(s) above."
+      else
+      end
   end
+
+  def self.test_link(instance)
+    url = instance.info_url
+      begin
+        doc = open(url)
+      rescue
+        puts "An error has occurred with the link below:".colorize(:red)
+        puts "#{url}"
+        puts "Please try again later.".colorize(:red)
+        url = nil
+      end
+      url
+  end
+
 
 
 end
