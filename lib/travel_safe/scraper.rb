@@ -41,26 +41,17 @@ class TravelSafe::Scraper
               info_url = info_url.strip
             end
             instance = TravelSafe::Country.new(country,advisory_level,country_url,info_url)
-            self.scrape_country(instance)
-            info_website = Nokogiri::HTML(open(info_url))
-            info_block = info_website.css("div.tsg-rwd-qf-box-data")
-            instance.passport_validity = info_block[0].text.strip if info_block[0] != nil
-            instance.blank_passport_pages = info_block[1].text.strip if info_block[1] != nil
-            instance.tourist_visa = info_block[2].text.strip if info_block[2] != nil
-            instance.vaccinations = info_block[3].text.strip if info_block[3] != nil
-            instance.currency_restrictions_entry = info_block[4].text.strip if info_block[4] != nil
-            instance.currency_restrictions_exit = info_block[5].text.strip if info_block[5] != nil
+            #self.scrape_country(instance), scraped for each country search rather than all at once to reduce load time.
             i+=1
             countries << instance
       end
       countries.count
     end
 
-  def scrape_country(instance)#instance
-    #if you use instance as variable you could open and add data for each country as you request it...less time in the beginning.
+  def self.scrape_country(instance)
   location = []
   contacts = []
-  info_website = Nokogiri::HTML(open(instance.info_url)) #instance.info_url
+  info_website = Nokogiri::HTML(open(instance.info_url))
   safety_block = info_website.css("div.tsg-rwd-accordion-copy")
   embassy = info_website.css("div.tsg-rwd-csi-contact-data-box-address")
   contact = info_website.css("div.tsg-rwd-csi-contact-data-box")
@@ -72,12 +63,18 @@ class TravelSafe::Scraper
     location << embassy.children[i].text
     i+=1
   end
+  info_block = info_website.css("div.tsg-rwd-qf-box-data")
+  instance.passport_validity = info_block[0].text.strip if info_block[0] != nil
+  instance.blank_passport_pages = info_block[1].text.strip if info_block[1] != nil
+  instance.tourist_visa = info_block[2].text.strip if info_block[2] != nil
+  instance.vaccinations = info_block[3].text.strip if info_block[3] != nil
+  instance.currency_restrictions_entry = info_block[4].text.strip if info_block[4] != nil
+  instance.currency_restrictions_exit = info_block[5].text.strip if info_block[5] != nil
   instance.embassy_address = location.join(" ")
   instance.embassy_phone = contacts[0] if contacts[0] != nil
   instance.emergency_phone = contacts[1] if contacts[1] != nil
   instance.embassy_email = contacts[3] if contacts[3] != nil
   instance.embassy_website = contact.children[4]["href"] if contacts[4] != nil
-    #binding.pry
   end
 
 end

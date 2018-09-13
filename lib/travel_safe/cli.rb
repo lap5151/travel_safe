@@ -73,8 +73,8 @@ class TravelSafe::CLI
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
+        TravelSafe::Scraper.scrape_country(result)
         TravelSafe::Country.more_info(result)
-        #puts "  Passport validity:".colorize(:light_blue) + " #{result.passport_validity}"
       else
         puts "                                                                  "
         puts "------------------------------------------------------------------"
@@ -124,6 +124,7 @@ class TravelSafe::CLI
       puts "------------------------------------------------------------------"
       puts "                                                                  "
         if input.upcase == "YES"
+          TravelSafe::Scraper.scrape_country(countries[possible])
           TravelSafe::Country.more_info(countries[possible])
         elsif input.upcase != "YES" && input.upcase != "NO"
           self.did_you_mean_info?(answer)
