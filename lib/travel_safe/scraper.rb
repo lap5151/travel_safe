@@ -41,12 +41,8 @@ class TravelSafe::Scraper
               info_url = info_url.strip
             end
             instance = TravelSafe::Country.new(country,advisory_level,country_url,info_url)
+            self.scrape_country(instance)
             info_website = Nokogiri::HTML(open(info_url))
-          #  safety_info = country_website.css("div.tsg-rwd-emergency-alert-text p")
-          #  avoid = country_website.css("div.tsg-rwd-emergency-alert-text li")
-          #  lists = avoid.css("li").text
-          #  blocks << safety_info.css("p")[0].text
-            #safety_info.css("p")[1]
             info_block = info_website.css("div.tsg-rwd-qf-box-data")
             instance.passport_validity = info_block[0].text.strip if info_block[0] != nil
             instance.blank_passport_pages = info_block[1].text.strip if info_block[1] != nil
@@ -60,38 +56,28 @@ class TravelSafe::Scraper
       countries.count
     end
 
-  def self.scrape_country(info_url = "https://travel.state.gov/content/passports/en/country/cyprus.html")
-  blocks = []
-  #country_website = Nokogiri::HTML(open(country_url))
-  #info_url = country_website.css("div.tsg-rwd-emergency-alert-text a").attribute("href").value
-#  info_url = country_website.at_css('a:contains("country information page")')["href"]
-#  if info_url.strip.split("https://travel.state.gov").count == 1
-  #  info_url = "https://travel.state.gov" + info_url.strip
-#  else
-  #  info_url = info_url.strip
-  #end
-  #binding.pry
-  info_website = Nokogiri::HTML(open(info_url))
-#  safety_info = country_website.css("div.tsg-rwd-emergency-alert-text p")
-#  avoid = country_website.css("div.tsg-rwd-emergency-alert-text li")
-#  lists = avoid.css("li").text
-#  blocks << safety_info.css("p")[0].text
-  #safety_info.css("p")[1]
-  info_block = info_website.css("div.tsg-rwd-qf-box-data")
-  passport_validity = info_block[0].text.strip if info_block[0] != nil
-  blank_passport_pages = info_block[1].text.strip if info_block[1] != nil
-  tourist_visa = info_block[2].text.strip if info_block[2] != nil
-  vaccinations = info_block[3].text.strip if info_block[3] != nil
-  currency_restrictions_entry = info_block[4].text.strip if info_block[4] != nil
-  currency_restrictions_exit = info_block[5].text.strip if info_block[5] != nil
-  binding.pry
-#  safety_block = info_website.css("div.tsg-rwd-accordion-copy")
-  #safety_and_security = safety_block[3].text.strip
-    #safety_block[3].xpath("p").each do |block|
-      #blocks << block.text
-  #  end
-  #  blocks
-  #  binding.pry
+  def scrape_country(instance)#instance
+    #if you use instance as variable you could open and add data for each country as you request it...less time in the beginning.
+  location = []
+  contacts = []
+  info_website = Nokogiri::HTML(open(instance.info_url)) #instance.info_url
+  safety_block = info_website.css("div.tsg-rwd-accordion-copy")
+  embassy = info_website.css("div.tsg-rwd-csi-contact-data-box-address")
+  contact = info_website.css("div.tsg-rwd-csi-contact-data-box")
+  contact.children.each do |contact_info|
+    contacts << contact_info.text
+  end
+  i = 0
+  until i == embassy.children.count
+    location << embassy.children[i].text
+    i+=1
+  end
+  instance.embassy_address = location.join(" ")
+  instance.embassy_phone = contacts[0] if contacts[0] != nil
+  instance.emergency_phone = contacts[1] if contacts[1] != nil
+  instance.embassy_email = contacts[3] if contacts[3] != nil
+  instance.embassy_website = contact.children[4]["href"] if contacts[4] != nil
+    #binding.pry
   end
 
 end

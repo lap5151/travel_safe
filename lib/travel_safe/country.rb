@@ -1,6 +1,6 @@
 class TravelSafe::Country
 
-attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :passport_validity, :blank_passport_pages, :tourist_visa, :vaccinations, :currency_restrictions_entry, :currency_restrictions_exit, :embassy_address, :embassy_phone, :emergency_phone
+attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :passport_validity, :blank_passport_pages, :tourist_visa, :vaccinations, :currency_restrictions_entry, :currency_restrictions_exit, :embassy_address, :embassy_phone, :emergency_phone, :embassy_email, :embassy_website
 
 @@all = []
 
@@ -44,12 +44,16 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
     puts "------------------------------------------------------------------"
     puts "                                                                  "
     puts "Passport validity:".colorize(:green) + " #{country.passport_validity}"
-    #puts "Passport validity: #{country.passport_validity}"
     puts "Blank Passport Pages:".colorize(:green) + " #{country.blank_passport_pages}"
     puts "Tourist Visa Required:".colorize(:green) + " #{country.tourist_visa}"
     puts "Vaccinations:".colorize(:green) + "  #{country.vaccinations}"
     puts "Currency Restrictions for Entry:".colorize(:green) + " #{country.currency_restrictions_entry}"
     puts "Currency Restrictions for Exit:".colorize(:green) + " #{country.currency_restrictions_exit}"
+    puts "Embassy Address:".colorize(:green) + " #{country.embassy_address}"
+    puts "Embassy Phone:".colorize(:green) + " #{country.embassy_phone}"
+    puts "Embassy Email:".colorize(:green) + " #{country.embassy_email}"
+    puts "Embassy website:".colorize(:green) + " #{country.embassy_website}"
+    puts "Embassy Emergency Number:".colorize(:green) + " #{country.emergency_phone}"
     puts "For more information please visit the webiste below:".colorize(:green)
     puts "#{country.country_url}"
   end
