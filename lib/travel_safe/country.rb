@@ -19,7 +19,10 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
   def self.list_all
     countries = []
     @@all.each  do |instance|
+      if instance.name == "Worldwide Caution"
+      else
       countries << instance.name
+      end
     end
     countries.sort.each.with_index(1) do |country, i|
         puts "#{i}. #{country}"

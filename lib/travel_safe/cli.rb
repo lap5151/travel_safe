@@ -1,10 +1,10 @@
 class TravelSafe::CLI
 
   def call
-    puts "Loading data, this will take 1-2 minutes. Please be patient...".colorize(:red)
+    puts "Loading data, this will take less than a minute. Please be patient...".colorize(:red)
     TravelSafe::Scraper.new.scrape_page
     puts "                                                                  "
-    puts "Bon Voyage!".colorize(:cyan)
+    puts "Welcome!".colorize(:cyan)
     puts "                                                                  "
     self.menu
   end
@@ -28,7 +28,7 @@ class TravelSafe::CLI
       puts "                                                                  "
       self.menu
     else input.upcase == "EXIT"
-      puts "Safe travels!".colorize(:cyan)
+      puts "Bon Voyage!".colorize(:cyan)
     end
   end
 
@@ -70,9 +70,9 @@ class TravelSafe::CLI
     answer = gets.strip
     result = TravelSafe::Country.find_by_name(answer)
       if result != nil
-        puts "                                                                  "
-        puts "------------------------------------------------------------------"
-        puts "                                                                  "
+        #puts "                                                                  "
+        #puts "------------------------------------------------------------------"
+        #puts "                                                                  "
         TravelSafe::Scraper.scrape_country(result)
         TravelSafe::Country.more_info(result)
       else
