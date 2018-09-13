@@ -1,18 +1,20 @@
 class TravelSafe::CLI
 
   def call
-    puts "Loading data, this will take 1-2 minutes. Please be patient..."
+    puts "Loading data, this will take 1-2 minutes. Please be patient...".colorize(:red)
     TravelSafe::Scraper.new.scrape_page
+    puts "                                                                  "
+    puts "Bon Voyage!".colorize(:cyan)
+    puts "                                                                  "
     self.menu
   end
 
   def menu
-    puts "Bon Voyage!"
-    puts "Please select what you would like to do:"
-    puts "1. To see an alphabetical list of countries to choose from., type 'list'"
-    puts "2. To search by country name for advisory level, type 'search'"
-    puts "3. To find out more infomartion about specific country, type 'more info'"
-    puts "4. To quit, type 'exit'"
+    puts "Please select what you would like to do:".colorize(:cyan)
+    puts "1. To see an alphabetical list of countries to choose from, type".colorize(:magenta) + " 'list'".colorize(:yellow)
+    puts "2. To search by country name for advisory level, type".colorize(:magenta) + " 'search'".colorize(:yellow)
+    puts "3. To find out more travel infomartion about specific country, type".colorize(:magenta) + " 'more info'".colorize(:yellow)
+    puts "4. To quit, type".colorize(:magenta) + " 'exit'".colorize(:red)
     input = gets.strip
     if input.upcase == "LIST"
       self.list
@@ -22,11 +24,11 @@ class TravelSafe::CLI
       self.more_info
     elsif input.upcase != "EXIT"
       puts "                                                                  "
-      puts "Sorry, I don't recognize that command."
+      puts "Sorry, I don't recognize that command.".colorize(:red)
       puts "                                                                  "
       self.menu
     else input.upcase == "EXIT"
-      puts "Safe travels!"
+      puts "Safe travels!".colorize(:cyan)
     end
   end
 
@@ -34,9 +36,8 @@ class TravelSafe::CLI
     puts "                                                                  "
     puts "------------------------------------------------------------------"
     puts "                                                                  "
-    puts "List of countries:"
+    puts "List of countries:".colorize(:green)
     TravelSafe::Country.list_all
-    #binding.pry
     puts "                                                                  "
     puts "------------------------------------------------------------------"
     puts "                                                                  "
@@ -44,41 +45,20 @@ class TravelSafe::CLI
   end
 
   def search_by_name
-    puts "Please enter the country name you would like more information about:"
-    input = gets.strip
-    countries = TravelSafe::Country.all
-    result = countries.detect {|instance| instance.name == input}
-      if result != nil
+    puts "Please enter the country name you would like more information about:".colorize(:white)
+    answer = gets.strip
+    instance = TravelSafe::Country.find_by_name(answer)
+      if instance != nil
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
-        puts "#{result.name}'s travel advisory level is #{result.advisory_level}"
-      else result == nil
+        puts "#{instance.name}'s travel advisory level is #{instance.advisory_level}".colorize(:green)
+      else
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
-        possible = countries.index{|country| country.name.include?(input)}
-          if possible != nil
-            puts "Did you mean #{countries[possible].name}? YES or NO "
-            input = gets.strip
-            puts "                                                                  "
-            puts "------------------------------------------------------------------"
-            puts "                                                                  "
-              if input.upcase == "YES"
-                puts "#{countries[possible].name}'s travel advisory level is #{countries[possible].advisory_level}"
-              else
-                puts "                                                                  "
-                puts "------------------------------------------------------------------"
-                puts "                                                                  "
-                puts "There were no search results for that country name. Please see our list of countries to choose from."
-              end
-          else
-            puts "                                                                  "
-            puts "------------------------------------------------------------------"
-            puts "                                                                  "
-            puts "There were no search results for that country name. Please see our list of countries to choose from."
-          end
-        end
+        self.did_you_mean_search?(answer)
+      end
     puts "                                                                  "
     puts "------------------------------------------------------------------"
     puts "                                                                  "
@@ -86,30 +66,80 @@ class TravelSafe::CLI
   end
 
   def more_info
-    puts "What country would you like more information about?"
-    input = gets.strip
-    #countries = ["Mexico", "India"]
-    countries = TravelSafe::Country.all
-    result = countries.detect {|instance| instance.name == input}
+    puts "What country would you like more travel information about?".colorize(:white)
+    answer = gets.strip
+    result = TravelSafe::Country.find_by_name(answer)
       if result != nil
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
-        #puts "#{result.name} is a great country."
-        #puts "#{result.advisory_info}"
         TravelSafe::Country.more_info(result)
+        #puts "  Passport validity:".colorize(:light_blue) + " #{result.passport_validity}"
       else
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
-        puts "There were no search results for that country name. Please see our list of countries to choose from."
-    end
-    puts "                                                                  "
-    puts "------------------------------------------------------------------"
-    puts "                                                                  "
-    self.menu
+        self.did_you_mean_info?(answer)
+      end
+      puts "                                                                  "
+      puts "------------------------------------------------------------------"
+      puts "                                                                  "
+      self.menu
   end
 
+  def did_you_mean_search?(answer)
+    possible = TravelSafe::Country.search_by_name(answer)
+    countries = TravelSafe::Country.all
+    if possible != nil
+      puts "Did you mean #{countries[possible].name}? YES or NO ".colorize(:white)
+      input = gets.strip
+      puts "                                                                  "
+      puts "------------------------------------------------------------------"
+      puts "                                                                  "
+        if input.upcase == "YES"
+          puts "#{countries[possible].name}'s travel advisory level is #{countries[possible].advisory_level}".colorize(:green)
+        elsif input.upcase != "YES" && input.upcase != "NO"
+          self.did_you_mean_search?(answer)
+        else
+          puts "                                                                  "
+          puts "------------------------------------------------------------------"
+          puts "                                                                  "
+          puts "There were no search results for that country name. Please see our list of countries to choose from.".colorize(:red)
+        end
+      else
+        puts "                                                                  "
+        puts "------------------------------------------------------------------"
+        puts "                                                                  "
+        puts "There were no search results for that country name. Please see our list of countries to choose from.".colorize(:red)
+      end
+  end
+
+  def did_you_mean_info?(answer)
+    possible = TravelSafe::Country.search_by_name(answer)
+    countries = TravelSafe::Country.all
+    if possible != nil
+      puts "Did you mean #{countries[possible].name}? YES or NO ".colorize(:white)
+      input = gets.strip
+      puts "                                                                  "
+      puts "------------------------------------------------------------------"
+      puts "                                                                  "
+        if input.upcase == "YES"
+          TravelSafe::Country.more_info(countries[possible])
+        elsif input.upcase != "YES" && input.upcase != "NO"
+          self.did_you_mean_info?(answer)
+        else
+          puts "                                                                  "
+          puts "------------------------------------------------------------------"
+          puts "                                                                  "
+          puts "There were no search results for that country name. Please see our list of countries to choose from.".colorize(:red)
+        end
+      else
+        puts "                                                                  "
+        puts "------------------------------------------------------------------"
+        puts "                                                                  "
+        puts "There were no search results for that country name. Please see our list of countries to choose from.".colorize(:red)
+      end
+  end
 
 
 end

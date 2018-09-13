@@ -1,8 +1,7 @@
 require 'nokogiri'
 require 'pry'
 require 'open-uri'
-require 'uri'
-require 'net/http'
+require 'colorize'
 
 require_relative "./travel_safe/version"
 require_relative './travel_safe/cli'

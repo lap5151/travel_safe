@@ -27,14 +27,30 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
       countries = []
   end
 
+  def self.find_by_name(input)
+    @@all.detect {|instance| instance.name == input}
+  end
+
+  def self.search_by_name(input)
+    possible = @@all.index{|instance| instance.name.upcase.include?(input.upcase)}
+  end
+
+  def self.look_up(possible)
+      result = @@all[possible]
+  end
+
   def self.more_info(country)
-    puts "Passport validity: #{country.passport_validity}"
-    puts "Blank Passport Pages: #{country.blank_passport_pages}"
-    puts "Tourist Visa Required: #{country.tourist_visa}"
-    puts "Vaccinations: #{country.vaccinations}"
-    puts "Currency Restrictions for Entry: #{country.currency_restrictions_entry}"
-    puts "Currency Restrictions for Exit: #{country.currency_restrictions_exit}"
-    puts "For more information please visit the webiste below: "
+    puts "                                                                  "
+    puts "------------------------------------------------------------------"
+    puts "                                                                  "
+    puts "Passport validity:".colorize(:green) + " #{country.passport_validity}"
+    #puts "Passport validity: #{country.passport_validity}"
+    puts "Blank Passport Pages:".colorize(:green) + " #{country.blank_passport_pages}"
+    puts "Tourist Visa Required:".colorize(:green) + " #{country.tourist_visa}"
+    puts "Vaccinations:".colorize(:green) + "  #{country.vaccinations}"
+    puts "Currency Restrictions for Entry:".colorize(:green) + " #{country.currency_restrictions_entry}"
+    puts "Currency Restrictions for Exit:".colorize(:green) + " #{country.currency_restrictions_exit}"
+    puts "For more information please visit the webiste below:".colorize(:green)
     puts "#{country.country_url}"
   end
 
