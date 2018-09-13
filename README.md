@@ -1,10 +1,9 @@
 # TravelSafe
 
-HELLO WORLD!
+Travel Safe!
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/travel_safe`. To experiment with that code, run `bin/console` for an interactive prompt.
+This Ruby Gem provides a CLI to view advisories and additional travel information for the countries listed on the U.S. Department of State's travel website.
 
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
