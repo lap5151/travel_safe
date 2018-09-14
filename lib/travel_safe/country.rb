@@ -31,7 +31,7 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
   end
 
   def self.find_by_name(input)
-    @@all.detect {|instance| instance.name == input}
+    @@all.detect {|instance| instance.name.upcase == input.upcase}
   end
 
   def self.search_by_name(input)
