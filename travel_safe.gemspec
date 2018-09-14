@@ -5,10 +5,10 @@ require "travel_safe/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "travel_safe"
-  spec.version       = '0.0.0'
+  spec.version       = '0.1.0'
   spec.authors       = ["'Lauren Pardee'"]
   spec.email         = ["'lap5151@gmail.com'"]
-
+  spec.description    = "This Ruby Gem can be used to obtain travel advisories, embassy information and additional travel info. "
   spec.summary       = %q{This Ruby Gem provides a CLI to view advisories and additional travel information for the countries listed on the U.S. Department of State's travel website.}
   spec.homepage      = "https://github.com/lap5151/travel_safe"
   spec.license       = "MIT"
@@ -35,5 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "nokogiri", "~>1.8"
   spec.add_development_dependency "pry", ">= 0"
   spec.add_development_dependency "colorize", ">= 0"
+
 
 end

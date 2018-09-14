@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    travel_safe (0.0.0)
+    travel_safe (0.1.0)
 
 GEM
   remote: https://rubygems.org/
