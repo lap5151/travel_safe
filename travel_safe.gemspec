@@ -5,7 +5,7 @@ require "travel_safe/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "travel_safe"
-  spec.version       = '0.1.0'
+  spec.version       = '0.3.0'
   spec.authors       = ["'Lauren Pardee'"]
   spec.email         = ["'lap5151@gmail.com'"]
   spec.description    = "This Ruby Gem can be used to obtain travel advisories, embassy information and additional travel info. "
@@ -29,6 +29,7 @@ Gem::Specification.new do |spec|
   end
 
   spec.executables   << "travel_safe"
+  spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
