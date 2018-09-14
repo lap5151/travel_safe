@@ -30,12 +30,32 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
       countries = []
   end
 
-  def self.find_by_name(input)
-    @@all.detect {|instance| instance.name.upcase == input.upcase}
+  def self.list_by_advisory_level(input)
+    if input == "1"
+      index = "Level 1: Exercise Normal Precautions"
+    elsif input == "2"
+      index = "Level 2: Exercise Increased Caution"
+    elsif input == "3"
+      index = "Level 3: Reconsider Travel"
+    else input == "4"
+      index = "Level 4: Do Not Travel"
+    end
+    countries = []
+      @@all.each  do |instance|
+        #instances with name Worldwide Caution are not real countries
+        if instance.name == "Worldwide Caution"
+        elsif instance.advisory_level == index
+        countries << instance
+        end
+      end
+      puts "The travel advisory for the following countries is #{index}"
+      countries.each.with_index(1) do |country, i|
+          puts "#{i}. #{country.name}"
+        end
   end
 
-  def self.search_by_name(input)
-    possible = @@all.index{|instance| instance.name.upcase.include?(input.upcase)}
+  def self.find_by_name(input)
+    @@all.detect {|instance| instance.name.upcase == input.upcase}
   end
 
   def self.more_info(country)
