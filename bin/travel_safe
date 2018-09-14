@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require './lib/travel_safe'
+require './lib/travel_safe.rb'
 
 TravelSafe::CLI.new.call
