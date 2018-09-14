@@ -1,0 +1,32 @@
+PATH
+  remote: .
+  specs:
+    travel_safe (0.0.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    coderay (1.1.2)
+    colorize (0.8.1)
+    method_source (0.9.0)
+    mini_portile2 (2.3.0)
+    nokogiri (1.8.4)
+      mini_portile2 (~> 2.3.0)
+    pry (0.11.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    rake (10.4.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.16)
+  colorize
+  nokogiri (~> 1.8)
+  pry
+  rake (~> 10.0)
+  travel_safe!
+
+BUNDLED WITH
+   1.16.4
