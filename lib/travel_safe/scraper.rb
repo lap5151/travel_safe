@@ -15,7 +15,6 @@ class TravelSafe::Scraper
             country_name = scrape_results[i].css("a").attribute("title").value.strip
             country = country_name.split(/.Travel Advisory$/).join
             advisory_level = scrape_results[i].css("td")[1].children.text
-            country_website = Nokogiri::HTML(open(country_url))
             instance = TravelSafe::Country.new(country,advisory_level,country_url)
             i+=1
       end
@@ -25,6 +24,7 @@ class TravelSafe::Scraper
   location = []
   contacts = []
   country_website = Nokogiri::HTML(open(instance.country_url))
+  #code below is used to clean up scraped data, identify correct info_url and open page to scrape country
   info_url = country_website.at_css('a:contains("country information page")')
   info_url_2 = country_website.at_css('a:contains("country information")')
   info_url_3 = country_website.at_css('a:contains("Country Information page")')
@@ -48,6 +48,7 @@ class TravelSafe::Scraper
       else
         info_url = info_url.strip
       end
+    #info_url has been determined and is being assigned to the instance
   instance.info_url = info_url
   info_url = TravelSafe::Country.test_link(instance)
   if info_url != nil

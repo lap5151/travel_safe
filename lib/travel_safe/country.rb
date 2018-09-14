@@ -18,6 +18,7 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
   def self.list_all
     countries = []
     @@all.each  do |instance|
+      #instances with name Worldwide Caution are not real countries
       if instance.name == "Worldwide Caution"
       else
       countries << instance.name
@@ -57,6 +58,7 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
     puts "#{country.country_url}"
   end
 
+#methods test_links and test_link are used to test if links are working and identify/skip them if they aren't
   def self.test_links
     countries = []
     bad_links = []
