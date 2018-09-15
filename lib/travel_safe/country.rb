@@ -25,7 +25,7 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
       end
     end
     countries.sort.each.with_index(1) do |country, i|
-        puts "#{i}. #{country}"
+        puts "#{country}"
       end
       countries = []
   end
@@ -48,9 +48,9 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
         countries << instance
         end
       end
-      puts "The travel advisory for the following countries is #{index}"
+      puts "The travel advisory for the following countries is #{index}".colorize(:green)
       countries.each.with_index(1) do |country, i|
-          puts "#{i}. #{country.name}"
+          puts "#{country.name}"
         end
   end
 

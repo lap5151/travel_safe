@@ -36,7 +36,7 @@ class TravelSafe::CLI
     puts "                                                                  "
     puts "------------------------------------------------------------------"
     puts "                                                                  "
-    puts "List of countries:".colorize(:green)
+    puts "Below are the country names you can search for:".colorize(:green)
     TravelSafe::Country.list_all
     puts "                                                                  "
     puts "------------------------------------------------------------------"
@@ -56,7 +56,7 @@ class TravelSafe::CLI
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
-        puts "I did not recognize that entry."
+        puts "I did not recognize that entry.".colorize(:red)
       else
         puts "                                                                  "
         puts "------------------------------------------------------------------"
@@ -70,7 +70,7 @@ class TravelSafe::CLI
   end
 
   def search_by_name
-    puts "What country would you like more travel information about?".colorize(:yellow)
+    puts "Which country would you like more travel information about?".colorize(:yellow)
     answer = gets.strip
     result = TravelSafe::Country.find_by_name(answer)
       if result != nil
