@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{This Ruby Gem provides a CLI to view advisories and additional travel information for the countries listed on the U.S. Department of State's travel website.}
   spec.homepage      = "https://github.com/lap5151/travel_safe"
   spec.license       = "MIT"
+  spec.files       = ["lib/travel_safe.rb", "lib/travel_safe/cli.rb", "lib/travel_safe/scraper.rb", "lib/travel_safe/country.rb"]
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
@@ -24,9 +25,9 @@ Gem::Specification.new do |spec|
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
-  spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
-    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  end
+  #spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
+#    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  #end
 
   spec.executables   << "travel_safe"
   spec.require_paths = ["lib"]
