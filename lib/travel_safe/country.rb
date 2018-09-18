@@ -58,6 +58,10 @@ attr_accessor :name, :country_url, :info_url, :advisory_level, :advisory_info, :
     @@all.detect {|instance| instance.name.upcase == input.upcase}
   end
 
+  def self.search_by_name(input)
+     possible = @@all.index{|instance| instance.name.upcase.include?(input.upcase)}
+  end
+
   def self.more_info(country)
     puts "                                                                  "
     puts "------------------------------------------------------------------"
