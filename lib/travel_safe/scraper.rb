@@ -2,6 +2,7 @@ class TravelSafe::Scraper
 
   def scrape_page
     scrape_results = []
+    puts "********Scraping Page **********"
     website = Nokogiri::HTML(open("https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories.html"))
     website.css("div.table-data.data-date").each do |info|
       info.css("tr").each do |row|
@@ -23,6 +24,7 @@ class TravelSafe::Scraper
   def self.scrape_country(instance)
   location = []
   contacts = []
+  puts "************Scraping Country*******"
   country_website = Nokogiri::HTML(open(instance.country_url))
   #code below is used to clean up scraped data, identify correct info_url and open page to scrape country
   info_url = country_website.at_css('a:contains("country information page")')

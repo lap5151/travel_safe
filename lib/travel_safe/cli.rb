@@ -6,7 +6,7 @@ class TravelSafe::CLI
     puts "                                                                  "
     puts "Welcome!".colorize(:cyan)
     puts "                                                                  "
-    self.menu
+    menu
   end
 
   def menu
@@ -17,16 +17,16 @@ class TravelSafe::CLI
     puts "4. To quit, type".colorize(:magenta) + " 'quit'".colorize(:red)
     input = gets.strip
     if input.upcase == "LIST"
-      self.list
+      list
     elsif input.upcase == "ADVISORY"
-      self.list_by_advisory_level
+      list_by_advisory_level
     elsif input.upcase == "SEARCH"
-      self.search_by_name
+      search_by_name
     elsif input.upcase != "QUIT"
       puts "                                                                  "
       puts "Sorry, I don't recognize that command.".colorize(:red)
       puts "                                                                  "
-      self.menu
+      menu
     else input.upcase == "QUIT"
       puts "Bon Voyage!".colorize(:cyan)
     end
@@ -37,11 +37,11 @@ class TravelSafe::CLI
     puts "------------------------------------------------------------------"
     puts "                                                                  "
     puts "Below are the country names you can search for:".colorize(:green)
-    TravelSafe::Country.list_all
+      list_all
     puts "                                                                  "
     puts "------------------------------------------------------------------"
     puts "                                                                  "
-      self.menu
+      menu
   end
 
   def list_by_advisory_level
@@ -61,12 +61,12 @@ class TravelSafe::CLI
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
-        TravelSafe::Country.list_by_advisory_level(answer)
+        by_advisory_level(answer)
       end
     puts "                                                                  "
     puts "------------------------------------------------------------------"
     puts "                                                                  "
-    self.menu
+    menu
   end
 
   def search_by_name
@@ -74,18 +74,18 @@ class TravelSafe::CLI
     answer = gets.strip
     result = TravelSafe::Country.find_by_name(answer)
       if result != nil
-        TravelSafe::Scraper.scrape_country(result)
-        TravelSafe::Country.more_info(result)
+        TravelSafe::Scraper.scrape_country(result) if result.info_url == nil
+        more_info(result)
       else
         puts "                                                                  "
         puts "------------------------------------------------------------------"
         puts "                                                                  "
-        self.did_you_mean?(answer)
+        did_you_mean?(answer)
       end
       puts "                                                                  "
       puts "------------------------------------------------------------------"
       puts "                                                                  "
-      self.menu
+      menu
   end
 
   def did_you_mean?(answer)
@@ -99,9 +99,9 @@ class TravelSafe::CLI
       puts "                                                                  "
         if input.upcase == "YES"
           TravelSafe::Scraper.scrape_country(countries[possible])
-          TravelSafe::Country.more_info(countries[possible])
+          more_info(countries[possible])
         elsif input.upcase != "YES" && input.upcase != "NO"
-          self.did_you_mean_info?(answer)
+          did_you_mean_info?(answer)
         else
           puts "                                                                  "
           puts "------------------------------------------------------------------"
@@ -116,5 +116,60 @@ class TravelSafe::CLI
       end
   end
 
+  def list_all
+    countries = []
+    TravelSafe::Country.all.each  do |instance|
+      #instances with name Worldwide Caution are not real countries
+      if instance.name != "Worldwide Caution"
+      countries << instance.name
+      end
+    end
+    countries.sort.each.with_index(1) do |country, i|
+        puts "#{country}"
+      end
+  end
+
+  def by_advisory_level(input)
+    if input == "1"
+      index = "Level 1: Exercise Normal Precautions"
+    elsif input == "2"
+      index = "Level 2: Exercise Increased Caution"
+    elsif input == "3"
+      index = "Level 3: Reconsider Travel"
+    else input == "4"
+      index = "Level 4: Do Not Travel"
+    end
+    countries = []
+      TravelSafe::Country.all.each  do |instance|
+        #instances with name Worldwide Caution are not real countries
+        if instance.name != "Worldwide Caution" && instance.advisory_level == index
+          countries << instance
+        end
+      end
+      puts "The travel advisory for the following countries is #{index}".colorize(:green)
+      countries.each do |country|
+          puts "#{country.name}"
+        end
+  end
+
+  def more_info(country)
+    puts "                                                                  "
+    puts "------------------------------------------------------------------"
+    puts "                                                                  "
+    puts "Travel Advisory:".colorize(:green) + " #{country.advisory_level}"
+    puts "Passport validity:".colorize(:green) + " #{country.passport_validity}"
+    puts "Blank Passport Pages:".colorize(:green) + " #{country.blank_passport_pages}"
+    puts "Tourist Visa Required:".colorize(:green) + " #{country.tourist_visa}"
+    puts "Vaccinations:".colorize(:green) + "  #{country.vaccinations}"
+    puts "Currency Restrictions for Entry:".colorize(:green) + " #{country.currency_restrictions_entry}"
+    puts "Currency Restrictions for Exit:".colorize(:green) + " #{country.currency_restrictions_exit}"
+    puts "Embassy Address:".colorize(:green) + " #{country.embassy_address}"
+    puts "Embassy Phone:".colorize(:green) + " #{country.embassy_phone}"
+    puts "Embassy Email:".colorize(:green) + " #{country.embassy_email}"
+    puts "Embassy website:".colorize(:green) + " #{country.embassy_website}"
+    puts "Embassy Emergency Number:".colorize(:green) + " #{country.emergency_phone}"
+    puts "For more information please visit the webiste below:".colorize(:green)
+    puts "#{country.country_url}"
+  end
 
 end
